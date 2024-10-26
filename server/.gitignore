@@ -1,0 +1,27 @@
+#Rust
+/target
+
+#node
+/node_modules
+.env
+coverage
+coverage.json
+
+# Hardhat files
+cache
+/artifacts
+
+#pm2
+/logs
+
+Old/Local files
+/server
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Self hosted Config files
+/admin

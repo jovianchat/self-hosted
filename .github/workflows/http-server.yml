@@ -1,0 +1,38 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: http-server CI
+
+on:
+  push:
+    branches: [ "server" ]
+  pull_request:
+    branches: [ "main" ]
+
+env: 
+  CARGO_TERM_COLOR: always
+
+jobs:
+
+  build_and_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+    strategy:
+      matrix:
+        toolchain: [stable]
+    
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Rust Toolchain
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: stable
+        components: clippy,rustfmt  # Install Clippy and Rustfmt
+    - name: Run Rustfmt
+      run: cargo fmt -- --check  # Check code formatting
+    - name: Build Project
+      run: cargo build --verbose  # Build the project in debug mode
+    - name: Run Tests
+      run: cargo test --all-features --verbose  # Run all tests with features enabled

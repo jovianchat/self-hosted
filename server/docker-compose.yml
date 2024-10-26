@@ -1,0 +1,52 @@
+volumes:
+  postgres-data:
+
+services:
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    # env_file:
+    #   - .env
+    environment:
+      POSTGRES_PASSWORD: mydevpassword
+      POSTGRES_USER: myadmin
+      POSTGRES_DB: jovianchat
+    ports:
+        - '5432:5432' # Map container port 5432 to host port 5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data # Mount volume to persist PostgreSQL data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=postgres@example.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+      - PGADMIN_CONFIG_SERVER_MODE=False
+      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
+    entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
+    user: root
+    configs:
+      - source: servers.json
+        target: /pgadmin4/servers.json
+      - source: pgpass
+        target: /pgpass
+    ports:
+      - '5050:80'
+
+configs:
+  pgpass:
+    content: postgres:5432:*:myadmin:mydevpassword
+  servers.json:
+    content: |
+      {"Servers": {"1": {
+        "Group": "Servers",
+        "Name": "My Local Postgres development server",
+        "Host": "postgres",
+        "Port": 5432,
+        "MaintenanceDB": "jovianchat",
+        "Username": "myadmin",
+        "PassFile": "/pgpass",
+        "SSLMode": "prefer"
+      }}}
