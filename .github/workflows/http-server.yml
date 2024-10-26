@@ -16,13 +16,31 @@ jobs:
 
   build_and_test:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: ./server
     strategy:
       matrix:
         toolchain: [stable]
-    
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: mydevpassword
+          POSTGRES_USER: myadmin
+          POSTGRES_DB: mydatabase
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        
+    env:
+      DATABASE_URL: postgres://myadmin:mydevpassword@localhost:5432/mydatabase
+      DATABASE_POOL_MAX_SIZE: 5
+      APP_ENVIRONMENT: development
+      LISTEN_PORT: 8020
+
     steps:
     - uses: actions/checkout@v4
     - name: Install Rust Toolchain
