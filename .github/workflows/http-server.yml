@@ -34,7 +34,7 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-        
+
     env:
       DATABASE_URL: postgres://myadmin:mydevpassword@localhost:5432/mydatabase
       DATABASE_POOL_MAX_SIZE: 5
@@ -48,6 +48,8 @@ jobs:
       with:
         toolchain: stable
         components: clippy,rustfmt  # Install Clippy and Rustfmt
+    - name: Sqlx
+      run: cargo install sqlx-cli --no-default-features --features native-tls,postgres && sqlx migrate run
     - name: Run Rustfmt & Clippy # Check code formatting && Run Clippy and treat warnings as errors
       run: cargo fmt -- --check && cargo clippy --all-targets --all-features -- -D warnings
     - name: Build Project
