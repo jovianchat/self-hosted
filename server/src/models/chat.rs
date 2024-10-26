@@ -50,7 +50,7 @@ impl Chat {
         let chat_cache = cache.chat.clone();
         let chat = chat_cache.get(chat_id).await;
         match chat {
-            Some(v) => return Ok(v),
+            Some(v) => Ok(v),
             None => {
                 let rows = sqlx::query_as!(
                 ChatMessage,

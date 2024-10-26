@@ -15,7 +15,11 @@ pub struct AppState {
 
 pub async fn serve(listen_addr: std::net::SocketAddr, pg_pool: PgPool) {
     let cache = CacheState::new();
-    let app_state = AppState { user: "admin".to_string(), pg_pool, cache };
+    let app_state = AppState {
+        user: "admin".to_string(),
+        pg_pool,
+        cache,
+    };
 
     let app = Router::new()
         .merge(routes::router_with_state())

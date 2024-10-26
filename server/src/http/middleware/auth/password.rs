@@ -9,7 +9,7 @@ use crate::{Context, Error, Result};
 pub async fn hash(password: String) -> Result<String> {
     // Argon2 hashing is designed to be computationally intensive,
     // so we need to do this on a blocking thread.
-    Ok(tokio::task::spawn_blocking(move || -> Result<String> {
+    tokio::task::spawn_blocking(move || -> Result<String> {
         let salt = SaltString::generate(&mut OsRng);
         Ok(Argon2::default()
             .hash_password(password.as_bytes(), &salt)
@@ -17,12 +17,12 @@ pub async fn hash(password: String) -> Result<String> {
             .to_string())
     })
     .await
-    .context("panic in generating password hash")??)
+    .context("panic in generating password hash")?
 }
 pub async fn verify(password: String, password_hash: String) -> Result<()> {
     // Argon2 hashing is designed to be computationally intensive,
     // so we need to do this on a blocking thread.
-    Ok(tokio::task::spawn_blocking(move || -> Result<()> {
+    tokio::task::spawn_blocking(move || -> Result<()> {
         let parsed_hash = PasswordHash::new(&password_hash)
             .map_err(|e| anyhow::anyhow!("invalid password hash: {}", e))?;
 
@@ -34,7 +34,7 @@ pub async fn verify(password: String, password_hash: String) -> Result<()> {
             })
     })
     .await
-    .context("panic in verifying password hash")??)
+    .context("panic in verifying password hash")?
 }
 
 #[derive(Serialize, Deserialize)]

@@ -45,33 +45,29 @@ async fn create_sse(
     // Transform OpenAI stream into SSE events
     let event_stream = openai_crate_stream.map(|result| {
         match result {
-            Ok(response) => match response.choices.get(0) {
+            Ok(response) => match response.choices.first() {
                 Some(chat_choice) => match chat_choice.finish_reason {
                     Some(finish_reason) => {
                         if finish_reason != FinishReason::Stop {
                             tracing::debug!("Finish reason: {:?}", finish_reason);
                         }
-                        Ok(Event::default().data("End of Stream".to_string()))
+                        Ok(Event::default().data("End of Stream"))
                     } // End stream with finish reason
                     None => {
                         // let else_content = String::from("This implies content is None but that wont happen since we check for it above in find");
                         let else_content = String::from("End of Stream");
-                        let content = chat_choice
-                            .delta
-                            .content
-                            .as_ref()
-                            .unwrap_or_else(|| &else_content);
+                        let content = chat_choice.delta.content.as_ref().unwrap_or(&else_content);
                         Ok(Event::default().data(content))
                     }
                 },
                 None => {
                     tracing::debug!("No choices found");
-                    Ok(Event::default().data("End of Stream".to_string()))
+                    Ok(Event::default().data("End of Stream"))
                 }
             },
             Err(err) => {
                 tracing::error!("SSE Error: {:?}", err);
-                Ok(Event::default().data("End of Stream".to_string()))
+                Ok(Event::default().data("End of Stream"))
             }
         }
     });

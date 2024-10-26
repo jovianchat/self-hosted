@@ -16,7 +16,7 @@ pub async fn get_chat_history(State(state): State<AppState>) -> Result<Json<Arc<
     let history_cache = state.cache.chat_history;
     let chat_history = history_cache.get(&state.user).await;
     match chat_history {
-        Some(v) => return Ok(Json(v)),
+        Some(v) => Ok(Json(v)),
         None => {
             let unstarred_history = unstarred_history(&state.pg_pool).await?;
             let starred_history = starred_history(&state.pg_pool).await?;

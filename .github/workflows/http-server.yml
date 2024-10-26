@@ -30,8 +30,9 @@ jobs:
       with:
         toolchain: stable
         components: clippy,rustfmt  # Install Clippy and Rustfmt
-    - name: Run Rustfmt
+    - name: Run Rustfmt & Clippy
       run: cargo fmt -- --check  # Check code formatting
+      run: cargo clippy --all-targets --all-features -- -D warnings  # Run Clippy and treat warnings as errors
     - name: Build Project
       run: cargo build --verbose  # Build the project in debug mode
     - name: Run Tests

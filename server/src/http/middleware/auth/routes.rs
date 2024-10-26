@@ -1,6 +1,9 @@
 use super::{password, JWT};
 use crate::Result;
-use axum::{routing::{post, put}, Json, Router};
+use axum::{
+    routing::{post, put},
+    Json, Router,
+};
 
 pub fn router() -> Router {
     Router::new()

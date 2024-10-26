@@ -18,6 +18,11 @@ impl CacheState {
         }
     }
 }
+impl Default for CacheState {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 pub async fn append_to_cached_chat(
     cache_state: &CacheState,
@@ -38,7 +43,6 @@ pub async fn append_to_cached_chat(
                 let chat = Chat::fetch_chat(key, cache_state, pool).await.unwrap();
                 chat.write().unwrap().messages.push(value);
                 chat
-                
             }
         })
         .await

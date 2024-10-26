@@ -12,36 +12,12 @@ importers:
         specifier: ^14.1.3
         version: 14.1.3
     devDependencies:
-      '@iconify-json/f7':
-        specifier: ^1.2.1
-        version: 1.2.1
-      '@iconify-json/fluent':
-        specifier: ^1.2.4
-        version: 1.2.4
-      '@iconify-json/fontisto':
-        specifier: ^1.2.0
-        version: 1.2.0
-      '@iconify-json/gridicons':
-        specifier: ^1.2.1
-        version: 1.2.1
-      '@iconify-json/ic':
-        specifier: ^1.2.1
-        version: 1.2.1
-      '@iconify-json/lucide':
-        specifier: ^1.2.10
-        version: 1.2.10
       '@iconify-json/material-symbols':
         specifier: ^1.2.4
         version: 1.2.4
-      '@iconify-json/mdi':
-        specifier: ^1.2.1
-        version: 1.2.1
       '@iconify-json/tabler':
         specifier: ^1.2.5
         version: 1.2.5
-      '@iconify-json/weui':
-        specifier: ^1.2.1
-        version: 1.2.1
       '@sveltejs/adapter-node':
         specifier: ^5.2.8
         version: 5.2.8(@sveltejs/kit@2.7.2(@sveltejs/vite-plugin-svelte@4.0.0(svelte@5.0.2)(vite@5.4.9(@types/node@22.7.7)))(svelte@5.0.2)(vite@5.4.9(@types/node@22.7.7)))
@@ -246,35 +222,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@iconify-json/f7@1.2.1':
-    resolution: {integrity: sha512-o39M1y1z4/r+SEFDVlbE4RJDnV8Tu6KucrevyQ8nrOzMT8SeBA7d1Sfugor1eGemFwiVWy9dFjhFT3YRK7JnGw==}
-
-  '@iconify-json/fluent@1.2.4':
-    resolution: {integrity: sha512-DsK5rzwcCFgGlqgqRz2Dj34lXO6V9xHxA6drgGC/ncsaR9aQ+RwmzcbXiOEQMv/smSPVuzHjFZGl9kQU0ahBkw==}
-
-  '@iconify-json/fontisto@1.2.0':
-    resolution: {integrity: sha512-L4q4NQf30j0dIMcgOYVl7ZYD1TwSRAkgxeCq3dcX+t2iPnX7K594mRl/lSaIjizu6L54Mt/M6AhaDc879oF35g==}
-
-  '@iconify-json/gridicons@1.2.1':
-    resolution: {integrity: sha512-3tvrEJhpLzWjkonA59pfUMz+06a/m5/Qus5K8uaZKN9TCPd2H8OzdH1iYIQMDsqGg1B5H9RDdlLDIbFlNnvZ/g==}
-
-  '@iconify-json/ic@1.2.1':
-    resolution: {integrity: sha512-UjL/bjJP/T5EV881+hTzcfTKVo0KEUjhnMiJcLtPzNgPtU2KZZmRx8BSKKR61H4CN/5FTEbyawGyG0aEt3SwGQ==}
-
-  '@iconify-json/lucide@1.2.10':
-    resolution: {integrity: sha512-cR1xpRJ4dnoXlC0ShDjzbrZyu+ICH4OUaYl7S51MhZUO1H040s7asVqv0LsDbofSLDuzWkHCLsBabTTRL0mCUg==}
-
   '@iconify-json/material-symbols@1.2.4':
     resolution: {integrity: sha512-qZy0wJWZsfPVwXRyIwltCdfVI/aANnKI99IcIo7MXYPmPkMVEfIo+sr1LEnpxvYtC5klLY4rEcLPxEPm3Y935g==}
 
-  '@iconify-json/mdi@1.2.1':
-    resolution: {integrity: sha512-dSkQU78gsZV6Yxnq78+LuX7jzeFC/5NAmz7O3rh558GimGFcwMVY/OtqRowIzjqJBmMmWZft7wkFV4TrwRXjlg==}
-
   '@iconify-json/tabler@1.2.5':
     resolution: {integrity: sha512-BDDLgDCbJ2btwi6cPmBL04QyPyNmWy6H13ynUAX48xxpxqUuG+hT+yrqL+RCugFimrvuhcecbSfEKnFc0BW1Ng==}
-
-  '@iconify-json/weui@1.2.1':
-    resolution: {integrity: sha512-r8Act4/Wv3J9AlQnySjP19YtMPzZGMq2DUDuMeaP095yMZr3eZJ3GPjAuRCx+yiHf6ZhelKIh6weiYOw/AaoVg==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -1549,43 +1501,11 @@ snapshots:
   '@esbuild/win32-x64@0.21.5':
     optional: true
 
-  '@iconify-json/f7@1.2.1':
-    dependencies:
-      '@iconify/types': 2.0.0
-
-  '@iconify-json/fluent@1.2.4':
-    dependencies:
-      '@iconify/types': 2.0.0
-
-  '@iconify-json/fontisto@1.2.0':
-    dependencies:
-      '@iconify/types': 2.0.0
-
-  '@iconify-json/gridicons@1.2.1':
-    dependencies:
-      '@iconify/types': 2.0.0
-
-  '@iconify-json/ic@1.2.1':
-    dependencies:
-      '@iconify/types': 2.0.0
-
-  '@iconify-json/lucide@1.2.10':
-    dependencies:
-      '@iconify/types': 2.0.0
-
   '@iconify-json/material-symbols@1.2.4':
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/mdi@1.2.1':
-    dependencies:
-      '@iconify/types': 2.0.0
-
   '@iconify-json/tabler@1.2.5':
-    dependencies:
-      '@iconify/types': 2.0.0
-
-  '@iconify-json/weui@1.2.1':
     dependencies:
       '@iconify/types': 2.0.0
 

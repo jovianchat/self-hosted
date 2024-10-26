@@ -52,10 +52,7 @@ async fn create_sse(
         {
             tracing::error!("Error executing Anthropic stream: {}", error);
             // Send an error event
-            if let Err(e) = tx
-                .send(Ok(Event::default().data("End of Stream".to_string())))
-                .await
-            {
+            if let Err(e) = tx.send(Ok(Event::default().data("End of Stream"))).await {
                 tracing::error!("Failed to send error event: {}", e);
             }
         }

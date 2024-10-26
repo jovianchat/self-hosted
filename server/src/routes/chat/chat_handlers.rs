@@ -97,6 +97,6 @@ pub async fn star_chat(
     // Moka cache invalidate
     let _ = state.cache.chat_history.invalidate(&state.user).await;
     let _ = state.cache.chat.invalidate(&chat_id).await;
-    
+
     Ok(StatusCode::OK)
 }
