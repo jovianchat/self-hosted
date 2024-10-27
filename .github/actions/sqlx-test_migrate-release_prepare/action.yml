@@ -4,9 +4,7 @@ description: "Setup Sqlx toolchain with caching"
 runs:
   using: "composite"
   steps:
-    - name: check hashFiles
-      run: ls -la
-      shell: bash
+    - uses: actions/checkout@v4
     - name: Check and Install sqlx-cli
       run: |
         if ! command -v sqlx &> /dev/null; then
