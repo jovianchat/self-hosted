@@ -42,17 +42,7 @@ jobs:
         with:
           components: rustfmt,clippy
       # Run sqlx migration for test_build and prepare for release_build
-      - name: Sqlx Migration & Prepare
-        run: |
-          cargo install sqlx-cli --no-default-features --features native-tls,postgres
-          sqlx migrate run
-          cargo sqlx prepare
-      - name: Cache Sqlx Offline metadata
-        id: sqlx-cache
-        uses: actions/cache@v4
-        with:
-          path: ./.sqlx
-          key: ${{ runner.os }}-sqlx-${{ hashFiles('migrations/**') }}
+      - uses: ./.github/actions/sqlx-test_migrate-release_prepare
       # Run tests
       - name: Run Rustfmt & Clippy # Check code formatting && Run Clippy and treat warnings as errors
         run: cargo fmt -- --check && cargo clippy --all-targets --all-features -- -D warnings
