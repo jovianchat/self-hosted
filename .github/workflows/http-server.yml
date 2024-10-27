@@ -15,6 +15,7 @@ env:
 defaults:
   run:
     working-directory: ./server
+    
 jobs:
 
   build_and_test:
@@ -37,10 +38,10 @@ jobs:
       LISTEN_PORT: 8020
 
     steps:
-      - uses: ./.github/workflows/setup-rust.yml
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/rust-setup
         with:
-          toolchain: stable
-          components: rustfmt, clippy
+          components: rustfmt,clippy
       - name: Sqlx
         run: cargo install sqlx-cli --no-default-features --features native-tls,postgres && sqlx migrate run
       - name: Run Rustfmt & Clippy # Check code formatting && Run Clippy and treat warnings as errors
@@ -54,5 +55,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/rust-setup
       - name: Build Release Project
         run: cargo build --release
