@@ -5,25 +5,46 @@ name: http-server CI
 
 on:
   push:
-    branches: [ "server" ]
+    branches: ["server"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
-env: 
+env:
   CARGO_TERM_COLOR: always
 
 jobs:
-
-  build_and_test:
+  setup:
     runs-on: ubuntu-latest
-
     defaults:
       run:
         working-directory: ./server
     strategy:
       matrix:
         toolchain: [stable]
+    # Steps
+    steps:
+      - uses: actions/checkout@v4
+      # Restore cached dependencies
+      - name: Cache Cargo Registry and Target directories
+        id: cargo-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+          components: clippy,rustfmt # Install Clippy and Rustfmt
 
+  build_and_test:
+    needs: setup
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres
@@ -42,17 +63,19 @@ jobs:
       LISTEN_PORT: 8020
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Install Rust Toolchain
-      uses: dtolnay/rust-toolchain@master
-      with:
-        toolchain: stable
-        components: clippy,rustfmt  # Install Clippy and Rustfmt
-    - name: Sqlx
-      run: cargo install sqlx-cli --no-default-features --features native-tls,postgres && sqlx migrate run
-    - name: Run Rustfmt & Clippy # Check code formatting && Run Clippy and treat warnings as errors
-      run: cargo fmt -- --check && cargo clippy --all-targets --all-features -- -D warnings
-    - name: Build Project
-      run: cargo build --verbose  # Build the project in debug mode
-    - name: Run Tests
-      run: cargo test --all-features --verbose  # Run all tests with features enabled
+      - name: Sqlx
+        run: cargo install sqlx-cli --no-default-features --features native-tls,postgres && sqlx migrate run
+      - name: Run Rustfmt & Clippy # Check code formatting && Run Clippy and treat warnings as errors
+        run: cargo fmt -- --check && cargo clippy --all-targets --all-features -- -D warnings
+      - name: Build Project
+        run: cargo build --verbose # Build the project in debug mode
+      - name: Run Tests
+        run: cargo test --all-features --verbose # Run all tests with features enabled
+
+  release:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build Release Project
+        run: cargo build --release
