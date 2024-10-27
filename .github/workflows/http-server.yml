@@ -18,7 +18,7 @@ defaults:
 jobs:
 
   build_and_test:
-    uses: ./.github/workflows/build_and_test.yml
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres
@@ -37,6 +37,10 @@ jobs:
       LISTEN_PORT: 8020
 
     steps:
+      - uses: .github/workflows/setup-rust.yml
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
       - name: Sqlx
         run: cargo install sqlx-cli --no-default-features --features native-tls,postgres && sqlx migrate run
       - name: Run Rustfmt & Clippy # Check code formatting && Run Clippy and treat warnings as errors
