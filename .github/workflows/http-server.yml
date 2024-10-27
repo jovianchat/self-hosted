@@ -15,10 +15,9 @@ env:
 defaults:
   run:
     working-directory: ./server
-    
-jobs:
 
-  build_and_test:
+jobs:
+  test_build:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -42,8 +41,19 @@ jobs:
       - uses: ./.github/actions/rust-setup
         with:
           components: rustfmt,clippy
-      - name: Sqlx
-        run: cargo install sqlx-cli --no-default-features --features native-tls,postgres && sqlx migrate run
+      # Run sqlx migration for test_build and prepare for release_build
+      - name: Sqlx Migration & Prepare
+        run: |
+          cargo install sqlx-cli --no-default-features --features native-tls,postgres
+          sqlx migrate run
+          cargo sqlx prepare
+      - name: Cache Sqlx Offline metadata
+        id: sqlx-cache
+        uses: actions/cache/save@v4
+        with:
+          path: ./.sqlx
+          key: ${{ runner.os }}-sqlx-${{ hashFiles('migrations/**') }}
+      # Run tests
       - name: Run Rustfmt & Clippy # Check code formatting && Run Clippy and treat warnings as errors
         run: cargo fmt -- --check && cargo clippy --all-targets --all-features -- -D warnings
       - name: Build Project
@@ -51,13 +61,20 @@ jobs:
       - name: Run Tests
         run: cargo test --all-features --verbose # Run all tests with features enabled
 
-  release:
+  release_build:
+    needs: test_build
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/rust-setup
-      - name: Sqlx
-        run: cargo install sqlx-cli --no-default-features --features native-tls,postgres && cargo sqlx prepare
+      # Restore Sqlx offline metadata
+      - name: Restore Sqlx Cache
+        id: sqlx-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ./.sqlx
+          key: ${{ runner.os }}-sqlx-${{ hashFiles('migrations/**') }}
+      # Build project for production
       - name: Build Release Project
         run: cargo build --release

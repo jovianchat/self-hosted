@@ -1,14 +1,14 @@
 # .github/actions/rust-setup/action.yml
-name: 'Rust Setup Action'
-description: 'Setup Rust toolchain with caching'
+name: "Rust Setup Action"
+description: "Setup Rust toolchain with caching"
 
 inputs:
   toolchain:
-    description: 'Rust toolchain to use (stable, beta, nightly)'
+    description: "Rust toolchain to use (stable, beta, nightly)"
     required: false
-    default: 'stable'
+    default: "stable"
   components:
-    description: 'Rust components to install'
+    description: "Rust components to install"
     required: false
 
 runs:
