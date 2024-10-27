@@ -58,6 +58,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/rust-setup
       - name: Sqlx
-        run: cargo install sqlx-cli --no-default-features --features native-tls,postgres && sqlx migrate run
+        run: cargo install sqlx-cli --no-default-features --features native-tls,postgres && cargo sqlx prepare
       - name: Build Release Project
-        run: cargo sqlx prepare && cargo build --release
+        run: cargo build --release
