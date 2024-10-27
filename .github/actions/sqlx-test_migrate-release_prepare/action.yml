@@ -4,16 +4,13 @@ description: "Setup Sqlx toolchain with caching"
 runs:
   using: "composite"
   steps:
-    - name: Check for Sqlx CLI
+    - name: Check and Install sqlx-cli
       run: |
         if ! command -v sqlx &> /dev/null; then
           cargo install sqlx-cli --no-default-features --features native-tls,postgres
         else
           echo "Sqlx CLI is already installed."
         fi
-      shell: bash
-    - name: Install sqlx-cli
-      run: cargo install sqlx-cli --no-default-features --features native-tls,postgres
       shell: bash
     # Setup for test build
     - name: Sqlx Migration
