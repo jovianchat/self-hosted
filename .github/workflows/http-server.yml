@@ -37,7 +37,7 @@ jobs:
       LISTEN_PORT: 8020
 
     steps:
-      - uses: .github/workflows/setup-rust.yml
+      - uses: ./.github/workflows/setup-rust.yml
         with:
           toolchain: stable
           components: rustfmt, clippy
